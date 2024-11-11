@@ -7,11 +7,15 @@ from streamlit_option_menu import option_menu  # Import library option menu
 
 # Mengatur koneksi ke Google Sheets
 def connect_to_gsheets():
-    # Mengambil kredensial JSON dari Streamlit Secrets
-    creds_dict = json.loads(st.secrets["GSHEET_CREDENTIALS"])
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/spreadsheets",
-             "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+    scope = [
+        "https://spreadsheets.google.com/feeds",
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive.file",
+        "https://www.googleapis.com/auth/drive"
+    ]
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(
+        st.secrets["gcp_service_account"], scope
+    )
     client = gspread.authorize(creds)
     return client
 
